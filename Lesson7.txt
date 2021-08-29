@@ -1,0 +1,227 @@
+﻿1. Подключить репозиторий с nginx любым удобным способом, установить nginx и потом удалить nginx, используя утилиту dpkg.
+2. Установить пакет на свой выбор, используя snap.
+3. Настроить iptables: разрешить подключения только на 22-й и 80-й порты.
+4. * Настроить проброс портов локально с порта 80 на порт 8080.
+
+
+jamelyron@jamelyron-linux:~$ sudo apt-add-repository ppa:nginx/stable
+[sudo] пароль для jamelyron: 
+ This PPA contains the latest Stable Release version of the nginx web server software.
+
+**Only Non-End-of-Life Ubuntu Releases are supported in this PPA**
+
+**Development releases of Ubuntu are not officially supported by this PPA, and uploads for those will not be available until actual final releases for those versions**
+ Больше информации: https://launchpad.net/~nginx/+archive/ubuntu/stable
+Нажмите [ENTER] для продолжения или Ctrl-C, чтобы отменить добавление.
+
+Пол:1 http://repo.yandex.ru/yandex-browser/deb beta InRelease [4 249 B]
+Пол:2 http://ppa.launchpad.net/nginx/stable/ubuntu focal InRelease [17,5 kB]   
+Пол:3 http://security.ubuntu.com/ubuntu focal-security InRelease [109 kB]      
+Сущ:4 http://ru.archive.ubuntu.com/ubuntu focal InRelease                     
+Пол:5 http://ru.archive.ubuntu.com/ubuntu focal-updates InRelease [114 kB]
+Пол:6 http://ru.archive.ubuntu.com/ubuntu focal-backports InRelease [101 kB]
+Пол:7 http://ppa.launchpad.net/nginx/stable/ubuntu focal/main i386 Packages [1 224 B]
+Пол:8 http://ppa.launchpad.net/nginx/stable/ubuntu focal/main amd64 Packages [4 944 B]
+Пол:9 http://ppa.launchpad.net/nginx/stable/ubuntu focal/main Translation-en [4 572 B]
+Пол:10 http://ru.archive.ubuntu.com/ubuntu focal-updates/main i386 Packages [449 kB]
+Пол:11 http://security.ubuntu.com/ubuntu focal-security/main amd64 DEP-11 Metadata [24,3 kB]
+Пол:12 http://ru.archive.ubuntu.com/ubuntu focal-updates/main amd64 Packages [896 kB]
+Пол:13 http://security.ubuntu.com/ubuntu focal-security/universe amd64 DEP-11 Metadata [58,2 kB]
+Пол:14 http://ru.archive.ubuntu.com/ubuntu focal-updates/main amd64 DEP-11 Metadata [264 kB]
+Пол:15 http://ru.archive.ubuntu.com/ubuntu focal-updates/universe i386 Packages [561 kB]
+Пол:16 http://ru.archive.ubuntu.com/ubuntu focal-updates/universe amd64 Packages [758 kB]
+Пол:17 http://ru.archive.ubuntu.com/ubuntu focal-updates/universe amd64 DEP-11 Metadata [303 kB]
+Пол:18 http://ru.archive.ubuntu.com/ubuntu focal-updates/multiverse amd64 DEP-11 Metadata [2 468 B]
+Пол:19 http://ru.archive.ubuntu.com/ubuntu focal-backports/universe amd64 DEP-11 Metadata [1 768 B]
+Получено 3 674 kB за 4с (998 kB/s)                                 
+Чтение списков пакетов… Готово
+W: Цель Packages (main/binary-amd64/Packages) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель Packages (main/binary-all/Packages) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель Translations (main/i18n/Translation-ru_RU) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель Translations (main/i18n/Translation-ru) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель Translations (main/i18n/Translation-en) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель DEP-11 (main/dep11/Components-amd64.yml) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель DEP-11 (main/dep11/Components-all.yml) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель DEP-11-icons-small (main/dep11/icons-48x48.tar) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель DEP-11-icons (main/dep11/icons-64x64.tar) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель DEP-11-icons-hidpi (main/dep11/icons-64x64@2.tar) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель CNF (main/cnf/Commands-amd64) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель CNF (main/cnf/Commands-all) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель Packages (main/binary-amd64/Packages) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель Packages (main/binary-all/Packages) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель Translations (main/i18n/Translation-ru_RU) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель Translations (main/i18n/Translation-ru) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель Translations (main/i18n/Translation-en) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель DEP-11 (main/dep11/Components-amd64.yml) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель DEP-11 (main/dep11/Components-all.yml) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель DEP-11-icons-small (main/dep11/icons-48x48.tar) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель DEP-11-icons (main/dep11/icons-64x64.tar) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель DEP-11-icons-hidpi (main/dep11/icons-64x64@2.tar) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель CNF (main/cnf/Commands-amd64) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель CNF (main/cnf/Commands-all) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+jamelyron@jamelyron-linux:~$ sudo apt update
+Сущ:1 http://ru.archive.ubuntu.com/ubuntu focal InRelease
+Сущ:2 http://ru.archive.ubuntu.com/ubuntu focal-updates InRelease              
+Сущ:3 http://ru.archive.ubuntu.com/ubuntu focal-backports InRelease            
+Сущ:4 http://ppa.launchpad.net/nginx/stable/ubuntu focal InRelease             
+Сущ:5 http://security.ubuntu.com/ubuntu focal-security InRelease               
+Пол:6 http://repo.yandex.ru/yandex-browser/deb beta InRelease [4 249 B]        
+Получено 4 249 B за 4с (1 108 B/s)        
+Чтение списков пакетов… Готово
+Построение дерева зависимостей       
+Чтение информации о состоянии… Готово
+Может быть обновлено 17 пакетов. Запустите «apt list --upgradable» для их показа.
+W: Цель Packages (main/binary-amd64/Packages) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель Packages (main/binary-all/Packages) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель Translations (main/i18n/Translation-ru_RU) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель Translations (main/i18n/Translation-ru) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель Translations (main/i18n/Translation-en) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель DEP-11 (main/dep11/Components-amd64.yml) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель DEP-11 (main/dep11/Components-all.yml) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель DEP-11-icons-small (main/dep11/icons-48x48.tar) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель DEP-11-icons (main/dep11/icons-64x64.tar) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель DEP-11-icons-hidpi (main/dep11/icons-64x64@2.tar) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель CNF (main/cnf/Commands-amd64) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель CNF (main/cnf/Commands-all) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель Packages (main/binary-amd64/Packages) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель Packages (main/binary-all/Packages) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель Translations (main/i18n/Translation-ru_RU) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель Translations (main/i18n/Translation-ru) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель Translations (main/i18n/Translation-en) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель DEP-11 (main/dep11/Components-amd64.yml) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель DEP-11 (main/dep11/Components-all.yml) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель DEP-11-icons-small (main/dep11/icons-48x48.tar) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель DEP-11-icons (main/dep11/icons-64x64.tar) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель DEP-11-icons-hidpi (main/dep11/icons-64x64@2.tar) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель CNF (main/cnf/Commands-amd64) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель CNF (main/cnf/Commands-all) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+jamelyron@jamelyron-linux:~$ sudo apt install nginx
+Чтение списков пакетов… Готово
+Построение дерева зависимостей       
+Чтение информации о состоянии… Готово
+Следующие пакеты устанавливались автоматически и больше не требуются:
+  chromium-codecs-ffmpeg-extra gstreamer1.0-vaapi
+  libgstreamer-plugins-bad1.0-0 libva-wayland2
+Для их удаления используйте «sudo apt autoremove».
+Будут установлены следующие дополнительные пакеты:
+  geoip-database libgeoip1 libnginx-mod-http-image-filter
+  libnginx-mod-http-xslt-filter libnginx-mod-mail libnginx-mod-stream
+  libnginx-mod-stream-geoip nginx-common nginx-core
+Предлагаемые пакеты:
+  geoip-bin fcgiwrap nginx-doc
+Следующие НОВЫЕ пакеты будут установлены:
+  geoip-database libgeoip1 libnginx-mod-http-image-filter
+  libnginx-mod-http-xslt-filter libnginx-mod-mail libnginx-mod-stream
+  libnginx-mod-stream-geoip nginx nginx-common nginx-core
+Обновлено 0 пакетов, установлено 10 новых пакетов, для удаления отмечено 0 пакетов, и 17 пакетов не обновлено.
+Необходимо скачать 3 960 kB архивов.
+После данной операции объём занятого дискового пространства возрастёт на 12,8 MB.
+Хотите продолжить? [Д/н] д
+Пол:1 http://ru.archive.ubuntu.com/ubuntu focal/universe amd64 geoip-database all 20191224-2 [3 029 kB]
+Пол:2 http://ppa.launchpad.net/nginx/stable/ubuntu focal/main amd64 nginx-common all 1.18.0-3ubuntu1+focal2 [68,6 kB]
+Пол:3 http://ppa.launchpad.net/nginx/stable/ubuntu focal/main amd64 libnginx-mod-http-xslt-filter amd64 1.18.0-3ubuntu1+focal2 [43,0 kB]
+Пол:4 http://ppa.launchpad.net/nginx/stable/ubuntu focal/main amd64 libnginx-mod-mail amd64 1.18.0-3ubuntu1+focal2 [72,9 kB]
+Пол:5 http://ppa.launchpad.net/nginx/stable/ubuntu focal/main amd64 libnginx-mod-stream amd64 1.18.0-3ubuntu1+focal2 [97,5 kB]
+Пол:6 http://ru.archive.ubuntu.com/ubuntu focal/universe amd64 libgeoip1 amd64 1.6.12-6build1 [70,5 kB]
+Пол:7 http://ppa.launchpad.net/nginx/stable/ubuntu focal/main amd64 libnginx-mod-stream-geoip amd64 1.18.0-3ubuntu1+focal2 [40,4 kB]
+Пол:8 http://ppa.launchpad.net/nginx/stable/ubuntu focal/main amd64 nginx-core amd64 1.18.0-3ubuntu1+focal2 [457 kB]
+Пол:9 http://ppa.launchpad.net/nginx/stable/ubuntu focal/main amd64 libnginx-mod-http-image-filter amd64 1.18.0-3ubuntu1+focal2 [44,8 kB]
+Пол:10 http://ppa.launchpad.net/nginx/stable/ubuntu focal/main amd64 nginx all 1.18.0-3ubuntu1+focal2 [35,6 kB]
+Получено 3 960 kB за 5с (841 kB/s) 
+Предварительная настройка пакетов …
+Выбор ранее не выбранного пакета geoip-database.
+(Чтение базы данных … на данный момент установлено 229207 файлов и каталогов.)
+Подготовка к распаковке …/0-geoip-database_20191224-2_all.deb …
+Распаковывается geoip-database (20191224-2) …
+Выбор ранее не выбранного пакета libgeoip1:amd64.
+Подготовка к распаковке …/1-libgeoip1_1.6.12-6build1_amd64.deb …
+Распаковывается libgeoip1:amd64 (1.6.12-6build1) …
+Выбор ранее не выбранного пакета nginx-common.
+Подготовка к распаковке …/2-nginx-common_1.18.0-3ubuntu1+focal2_all.deb …
+Распаковывается nginx-common (1.18.0-3ubuntu1+focal2) …
+Выбор ранее не выбранного пакета libnginx-mod-http-xslt-filter.
+Подготовка к распаковке …/3-libnginx-mod-http-xslt-filter_1.18.0-3ubuntu1+focal2
+_amd64.deb …
+Распаковывается libnginx-mod-http-xslt-filter (1.18.0-3ubuntu1+focal2) …
+Выбор ранее не выбранного пакета libnginx-mod-mail.
+Подготовка к распаковке …/4-libnginx-mod-mail_1.18.0-3ubuntu1+focal2_amd64.deb …
+Распаковывается libnginx-mod-mail (1.18.0-3ubuntu1+focal2) …
+Выбор ранее не выбранного пакета libnginx-mod-stream.
+Подготовка к распаковке …/5-libnginx-mod-stream_1.18.0-3ubuntu1+focal2_amd64.deb
+ …
+Распаковывается libnginx-mod-stream (1.18.0-3ubuntu1+focal2) …
+Выбор ранее не выбранного пакета libnginx-mod-stream-geoip.
+Подготовка к распаковке …/6-libnginx-mod-stream-geoip_1.18.0-3ubuntu1+focal2_amd
+64.deb …
+Распаковывается libnginx-mod-stream-geoip (1.18.0-3ubuntu1+focal2) …
+Выбор ранее не выбранного пакета nginx-core.
+Подготовка к распаковке …/7-nginx-core_1.18.0-3ubuntu1+focal2_amd64.deb …
+Распаковывается nginx-core (1.18.0-3ubuntu1+focal2) …
+Выбор ранее не выбранного пакета libnginx-mod-http-image-filter.
+Подготовка к распаковке …/8-libnginx-mod-http-image-filter_1.18.0-3ubuntu1+focal
+2_amd64.deb …
+Распаковывается libnginx-mod-http-image-filter (1.18.0-3ubuntu1+focal2) …
+Выбор ранее не выбранного пакета nginx.
+Подготовка к распаковке …/9-nginx_1.18.0-3ubuntu1+focal2_all.deb …
+Распаковывается nginx (1.18.0-3ubuntu1+focal2) …
+Настраивается пакет nginx-common (1.18.0-3ubuntu1+focal2) …
+Created symlink /etc/systemd/system/multi-user.target.wants/nginx.service → /lib
+/systemd/system/nginx.service.
+Настраивается пакет libgeoip1:amd64 (1.6.12-6build1) …
+Настраивается пакет geoip-database (20191224-2) …
+Настраивается пакет libnginx-mod-stream (1.18.0-3ubuntu1+focal2) …
+Настраивается пакет nginx-core (1.18.0-3ubuntu1+focal2) …
+ * Upgrading binary nginx                                                [ OK ] 
+Настраивается пакет libnginx-mod-mail (1.18.0-3ubuntu1+focal2) …
+Настраивается пакет nginx (1.18.0-3ubuntu1+focal2) …
+Настраивается пакет libnginx-mod-http-image-filter (1.18.0-3ubuntu1+focal2) …
+Настраивается пакет libnginx-mod-stream-geoip (1.18.0-3ubuntu1+focal2) …
+Настраивается пакет libnginx-mod-http-xslt-filter (1.18.0-3ubuntu1+focal2) …
+Обрабатываются триггеры для libc-bin (2.31-0ubuntu9.2) …
+Обрабатываются триггеры для ufw (0.36-6) …
+Обрабатываются триггеры для systemd (245.4-4ubuntu3.4) …
+Обрабатываются триггеры для man-db (2.9.1-1) …
+Обрабатываются триггеры для nginx-core (1.18.0-3ubuntu1+focal2) …
+Triggering nginx reload ...
+jamelyron@jamelyron-linux:~$ 
+jamelyron@jamelyron-linux:~$ sudo dpkg -r nginx
+(Чтение базы данных … на данный момент установлено 229304 файла и каталога.)
+Удаляется nginx (1.18.0-3ubuntu1+focal2) …
+jamelyron@jamelyron-linux:~$ 
+jamelyron@jamelyron-linux:~$ sudo apt install snapd
+Чтение списков пакетов… Готово
+Построение дерева зависимостей       
+Чтение информации о состоянии… Готово
+Уже установлен пакет snapd самой новой версии (2.48.3+20.04).
+snapd помечен как установленный вручную.
+Следующие пакеты устанавливались автоматически и больше не требуются:
+  chromium-codecs-ffmpeg-extra geoip-database gstreamer1.0-vaapi libgeoip1
+  libgstreamer-plugins-bad1.0-0 libnginx-mod-http-image-filter
+  libnginx-mod-http-xslt-filter libnginx-mod-mail libnginx-mod-stream
+  libnginx-mod-stream-geoip libva-wayland2 nginx-common nginx-core
+Для их удаления используйте «sudo apt autoremove».
+Обновлено 0 пакетов, установлено 0 новых пакетов, для удаления отмечено 0 пакетов, и 17 пакетов не обновлено.
+jamelyron@jamelyron-linux:~$ sudo ln -s /var/lib/snapd/snap /snap
+jamelyron@jamelyron-linux:~$ sudo snap install snap-store
+snap "snap-store" is already installed, see 'snap help refresh'
+jamelyron@jamelyron-linux:~$ 
+jamelyron@jamelyron-linux:~$ sudo apt install iptables
+Чтение списков пакетов… Готово
+Построение дерева зависимостей       
+Чтение информации о состоянии… Готово
+Уже установлен пакет iptables самой новой версии (1.8.4-3ubuntu2).
+iptables помечен как установленный вручную.
+Следующие пакеты устанавливались автоматически и больше не требуются:
+  chromium-codecs-ffmpeg-extra geoip-database gstreamer1.0-vaapi libgeoip1
+  libgstreamer-plugins-bad1.0-0 libnginx-mod-http-image-filter
+  libnginx-mod-http-xslt-filter libnginx-mod-mail libnginx-mod-stream
+  libnginx-mod-stream-geoip libva-wayland2 nginx-common nginx-core
+Для их удаления используйте «sudo apt autoremove».
+Обновлено 0 пакетов, установлено 0 новых пакетов, для удаления отмечено 0 пакетов, и 17 пакетов не обновлено.
+jamelyron@jamelyron-linux:~$ sudo iptables -P INPUT DROP
+jamelyron@jamelyron-linux:~$ sudo iptables -t filter -A INPUT -p tcp --dport 22 -j ACCEPT
+jamelyron@jamelyron-linux:~$ sudo iptables -t filter -A INPUT -p tcp --dport 80 -j ACCEPT
+jamelyron@jamelyron-linux:~$ 
+jamelyron@jamelyron-linux:~$ sudo iptables -A PREROUTING -t nat -p tcp --dport 80 -j REDIRECT --to-ports 8080
+jamelyron@jamelyron-linux:~$ 
+

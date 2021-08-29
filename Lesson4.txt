@@ -1,0 +1,113 @@
+﻿1. Потоки ввода/вывода. Создать файл, используя команду echo. Используя команду cat, прочитать содержимое всех файлов каталога etc, ошибки перенаправить в отдельный файл.
+2. Конвейер (pipeline). Использовать команду cut на вывод длинного списка каталога, чтобы отобразить только права доступа к файлам. Затем отправить в конвейере этот вывод на sort и uniq, чтобы отфильтровать все повторяющиеся строки.
+3. Управление процессами.) Изменить конфигурационный файл службы SSH: /etc/ssh/sshd_config, отключив аутентификацию по паролю PasswordAuthentication no. Выполните рестарт службы systemctl restart sshd (service sshd restart), верните аутентификацию по паролю, выполните reload службы systemctl reload sshd (services sshd reload). В чём различие между действиями restart и reload? Создайте файл при помощи команды cat > file_name, напишите текст и завершите комбинацией ctrl+d. Какой сигнал передадим процессу?
+4. Сигналы процессам. Запустите mc. Используя ps, найдите PID процесса, завершите процесс, передав ему сигнал 9.
+
+
+jamelyron@jamelyron-linux:~$ echo 'fishtext' > echofile.txt
+jamelyron@jamelyron-linux:~$ cat echofile.txt 
+fishtext
+jamelyron@jamelyron-linux:~$ cat /etc/*.* 2> error.log //после команды много текста 
+------------------------------------------------------------------------
+jamelyron@jamelyron-linux:~$ cat error.log   //перешел сразу на лог ошибок
+cat: /etc/apparmor.d: Это каталог
+cat: /etc/bash_completion.d: Это каталог
+cat: /etc/binfmt.d: Это каталог
+cat: /etc/brlapi.key: Отказано в доступе
+cat: /etc/cron.d: Это каталог
+cat: /etc/cron.daily: Это каталог
+cat: /etc/cron.hourly: Это каталог
+cat: /etc/cron.monthly: Это каталог
+cat: /etc/cron.weekly: Это каталог
+cat: /etc/depmod.d: Это каталог
+cat: /etc/environment.d: Это каталог
+cat: /etc/grub.d: Это каталог
+cat: /etc/gtk-2.0: Это каталог
+cat: /etc/gtk-3.0: Это каталог
+cat: /etc/init.d: Это каталог
+cat: /etc/insserv.conf.d: Это каталог
+cat: /etc/ld.so.conf.d: Это каталог
+cat: /etc/libpaper.d: Это каталог
+cat: /etc/logrotate.d: Это каталог
+cat: /etc/modprobe.d: Это каталог
+cat: /etc/modules-load.d: Это каталог
+cat: /etc/pam.d: Это каталог
+cat: /etc/profile.d: Это каталог
+cat: /etc/python3.8: Это каталог
+cat: /etc/rc0.d: Это каталог
+cat: /etc/rc1.d: Это каталог
+cat: /etc/rc2.d: Это каталог
+cat: /etc/rc3.d: Это каталог
+cat: /etc/rc4.d: Это каталог
+cat: /etc/rc5.d: Это каталог
+cat: /etc/rc6.d: Это каталог
+cat: /etc/rcS.d: Это каталог
+cat: /etc/rsyslog.d: Это каталог
+cat: /etc/sane.d: Это каталог
+cat: /etc/sensors.d: Это каталог
+cat: /etc/sudoers.d: Это каталог
+cat: /etc/sysctl.d: Это каталог
+cat: /etc/tmpfiles.d: Это каталог
+cat: /etc/update-motd.d: Это каталог
+cat: /etc/usb_modeswitch.d: Это каталог
+jamelyron@jamelyron-linux:~$ 
+jamelyron@jamelyron-linux:~$ 
+jamelyron@jamelyron-linux:~$ 
+jamelyron@jamelyron-linux:~$ 
+jamelyron@jamelyron-linux:~$ 
+jamelyron@jamelyron-linux:~$ 
+jamelyron@jamelyron-linux:~$ 
+jamelyron@jamelyron-linux:~$ 
+jamelyron@jamelyron-linux:~$ ls -la ~/ | cut -d " " -f '1' | sort | uniq 
+drwx------
+drwxrwxr-x
+drwxr-xr-x
+-rw-------
+-rw-r--r--
+-rw-rw-r--
+итого
+jamelyron@jamelyron-linux:~$ 
+jamelyron@jamelyron-linux:~$ 
+jamelyron@jamelyron-linux:~$ 
+jamelyron@jamelyron-linux:~$ 
+jamelyron@jamelyron-linux:~$ 
+jamelyron@jamelyron-linux:~$ 
+jamelyron@jamelyron-linux:~$ sed -re 's/^(PasswordAuthentication)([[:space:]]+)no/yes/' -i.`date -I` /etc/ssh/sshd_config
+sed: невозможно открыть временный файл /etc/ssh/sedM2QN6B: Отказано в доступе
+jamelyron@jamelyron-linux:~$ sudo sed -re 's/^(PasswordAuthentication)([[:space:]]+)no/yes/' -i.`date -I` /etc/ssh/sshd_config
+[sudo] пароль для jamelyron: 
+jamelyron@jamelyron-linux:~$ systemctl restart sshd
+jamelyron@jamelyron-linux:~$ sudo sed -re 's/^(PasswordAuthentication)([[:space:]]+)no/yes/' -i.`date -I` /etc/ssh/sshd_config
+jamelyron@jamelyron-linux:~$ systemctl reload sshd
+
+//restart - перезапускает службу
+//reload - перечитывает конфигурацию, не останавливая службы
+
+jamelyron@jamelyron-linux:~$ cat > file_name 
+fishtext
+fishtext
+jamelyron@jamelyron-linux:  //отправили последнюю строку
+jamelyron@jamelyron-linux:  
+jamelyron@jamelyron-linux:  
+jamelyron@jamelyron-linux:  
+jamelyron@jamelyron-linux:  
+jamelyron@jamelyron-linux:~$ mc &
+[1] 77316
+jamelyron@jamelyron-linux:~$ ps
+                                   PID TTY          TIME CMD
+  77304 pts/0    00:00:00 bash
+  77316 pts/0    00:00:00 mc
+  77321 pts/0    00:00:00 ps
+
+[1]+  Остановлен    mc
+jamelyron@jamelyron-linux:~$ sudo kill -9 77316
+[sudo] пароль для jamelyron: 
+[1]+  Убито              mc
+jamelyron@jamelyron-linux:~$ 
+
+
+
+
+
+
+

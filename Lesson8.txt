@@ -1,0 +1,303 @@
+﻿1. Переустановить операционную систему (по желанию, для дополнительной практики)
+2. Подключить репозиторий Docker.
+3. Запустить контейнер с Ubuntu.
+4. * Используя Dockerfile, собрать связку nginx + PHP-FPM в одном контейнере.
+
+
+
+jamelyron@jamelyron-linux:~$ sudo apt install apt-transport-https ca-certificates curl software-properties-common
+Чтение списков пакетов… Готово
+Построение дерева зависимостей       
+Чтение информации о состоянии… Готово
+Уже установлен пакет ca-certificates самой новой версии (20210119~20.04.1).
+ca-certificates помечен как установленный вручную.
+Уже установлен пакет software-properties-common самой новой версии (0.98.9.4).
+software-properties-common помечен как установленный вручную.
+Следующие пакеты устанавливались автоматически и больше не требуются:
+  chromium-codecs-ffmpeg-extra geoip-database gstreamer1.0-vaapi libgeoip1 libgstreamer-plugins-bad1.0-0
+  libnginx-mod-http-image-filter libnginx-mod-http-xslt-filter libnginx-mod-mail libnginx-mod-stream libnginx-mod-stream-geoip
+  libva-wayland2 nginx-common nginx-core
+Для их удаления используйте «sudo apt autoremove».
+Следующие НОВЫЕ пакеты будут установлены:
+  apt-transport-https curl
+Обновлено 0 пакетов, установлено 2 новых пакетов, для удаления отмечено 0 пакетов, и 0 пакетов не обновлено.
+Необходимо скачать 163 kB архивов.
+После данной операции объём занятого дискового пространства возрастёт на 571 kB.
+Хотите продолжить? [Д/н] д
+Пол:1 http://ru.archive.ubuntu.com/ubuntu focal-updates/universe amd64 apt-transport-https all 2.0.5 [1 704 B]
+Пол:2 http://ru.archive.ubuntu.com/ubuntu focal-updates/main amd64 curl amd64 7.68.0-1ubuntu2.5 [161 kB]
+Получено 163 kB за 0с (692 kB/s)
+Выбор ранее не выбранного пакета apt-transport-https.
+(Чтение базы данных … на данный момент установлено 229302 файла и каталога.)
+Подготовка к распаковке …/apt-transport-https_2.0.5_all.deb …
+Распаковывается apt-transport-https (2.0.5) …
+Выбор ранее не выбранного пакета curl.
+Подготовка к распаковке …/curl_7.68.0-1ubuntu2.5_amd64.deb …
+Распаковывается curl (7.68.0-1ubuntu2.5) …
+Настраивается пакет apt-transport-https (2.0.5) …
+Настраивается пакет curl (7.68.0-1ubuntu2.5) …
+Обрабатываются триггеры для man-db (2.9.1-1) …
+jamelyron@jamelyron-linux:~$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+OK
+jamelyron@jamelyron-linux:~$ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+Пол:1 http://repo.yandex.ru/yandex-browser/deb beta InRelease [4 249 B]
+Сущ:2 http://ru.archive.ubuntu.com/ubuntu focal InRelease                                                                      
+Пол:3 http://ru.archive.ubuntu.com/ubuntu focal-updates InRelease [114 kB]                                                     
+Сущ:4 http://ppa.launchpad.net/nginx/stable/ubuntu focal InRelease                                                             
+Пол:5 http://ru.archive.ubuntu.com/ubuntu focal-backports InRelease [101 kB]                                                   
+Пол:6 https://download.docker.com/linux/ubuntu bionic InRelease [64,4 kB]                                                      
+Пол:7 http://security.ubuntu.com/ubuntu focal-security InRelease [109 kB]                                                      
+Пол:8 http://ru.archive.ubuntu.com/ubuntu focal-updates/main amd64 DEP-11 Metadata [265 kB]
+Пол:9 http://ru.archive.ubuntu.com/ubuntu focal-updates/universe amd64 DEP-11 Metadata [303 kB]
+Пол:10 http://ru.archive.ubuntu.com/ubuntu focal-updates/multiverse amd64 DEP-11 Metadata [2 468 B]
+Пол:11 https://download.docker.com/linux/ubuntu bionic/stable amd64 Packages [17,4 kB]
+Пол:12 http://ru.archive.ubuntu.com/ubuntu focal-backports/universe amd64 DEP-11 Metadata [1 768 B]
+Получено 981 kB за 2с (556 kB/s)
+Чтение списков пакетов… Готово
+W: Цель Packages (main/binary-amd64/Packages) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель Packages (main/binary-all/Packages) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель Translations (main/i18n/Translation-ru_RU) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель Translations (main/i18n/Translation-ru) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель Translations (main/i18n/Translation-en) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель DEP-11 (main/dep11/Components-amd64.yml) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель DEP-11 (main/dep11/Components-all.yml) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель DEP-11-icons-small (main/dep11/icons-48x48.tar) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель DEP-11-icons (main/dep11/icons-64x64.tar) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель DEP-11-icons-hidpi (main/dep11/icons-64x64@2.tar) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель CNF (main/cnf/Commands-amd64) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель CNF (main/cnf/Commands-all) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель Packages (main/binary-amd64/Packages) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель Packages (main/binary-all/Packages) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель Translations (main/i18n/Translation-ru_RU) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель Translations (main/i18n/Translation-ru) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель Translations (main/i18n/Translation-en) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель DEP-11 (main/dep11/Components-amd64.yml) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель DEP-11 (main/dep11/Components-all.yml) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель DEP-11-icons-small (main/dep11/icons-48x48.tar) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель DEP-11-icons (main/dep11/icons-64x64.tar) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель DEP-11-icons-hidpi (main/dep11/icons-64x64@2.tar) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель CNF (main/cnf/Commands-amd64) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель CNF (main/cnf/Commands-all) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+jamelyron@jamelyron-linux:~$ 
+jamelyron@jamelyron-linux:~$ sudo apt update && apt-cache policy docker-ce
+Сущ:1 http://ru.archive.ubuntu.com/ubuntu focal InRelease
+Сущ:2 http://ru.archive.ubuntu.com/ubuntu focal-updates InRelease                                                              
+Пол:3 http://repo.yandex.ru/yandex-browser/deb beta InRelease [4 249 B]                                                        
+Сущ:4 http://ru.archive.ubuntu.com/ubuntu focal-backports InRelease                                                            
+Сущ:5 http://ppa.launchpad.net/nginx/stable/ubuntu focal InRelease                                                             
+Сущ:6 https://download.docker.com/linux/ubuntu bionic InRelease                                                                
+Пол:7 http://security.ubuntu.com/ubuntu focal-security InRelease [109 kB]         
+Получено 113 kB за 2с (55,5 kB/s)         
+Чтение списков пакетов… Готово
+Построение дерева зависимостей       
+Чтение информации о состоянии… Готово
+Все пакеты имеют последние версии.
+W: Цель Packages (main/binary-amd64/Packages) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель Packages (main/binary-all/Packages) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель Translations (main/i18n/Translation-ru_RU) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель Translations (main/i18n/Translation-ru) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель Translations (main/i18n/Translation-en) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель DEP-11 (main/dep11/Components-amd64.yml) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель DEP-11 (main/dep11/Components-all.yml) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель DEP-11-icons-small (main/dep11/icons-48x48.tar) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель DEP-11-icons (main/dep11/icons-64x64.tar) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель DEP-11-icons-hidpi (main/dep11/icons-64x64@2.tar) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель CNF (main/cnf/Commands-amd64) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель CNF (main/cnf/Commands-all) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель Packages (main/binary-amd64/Packages) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель Packages (main/binary-all/Packages) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель Translations (main/i18n/Translation-ru_RU) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель Translations (main/i18n/Translation-ru) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель Translations (main/i18n/Translation-en) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель DEP-11 (main/dep11/Components-amd64.yml) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель DEP-11 (main/dep11/Components-all.yml) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель DEP-11-icons-small (main/dep11/icons-48x48.tar) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель DEP-11-icons (main/dep11/icons-64x64.tar) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель DEP-11-icons-hidpi (main/dep11/icons-64x64@2.tar) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель CNF (main/cnf/Commands-amd64) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+W: Цель CNF (main/cnf/Commands-all) настроена несколько раз: в /etc/apt/sources.list:58 и в /etc/apt/sources.list.d/yandex-browser-beta.list:3
+docker-ce:
+  Установлен: (отсутствует)
+  Кандидат:   5:20.10.5~3-0~ubuntu-bionic
+  Таблица версий:
+     5:20.10.5~3-0~ubuntu-bionic 500
+        500 https://download.docker.com/linux/ubuntu bionic/stable amd64 Packages
+     5:20.10.4~3-0~ubuntu-bionic 500
+        500 https://download.docker.com/linux/ubuntu bionic/stable amd64 Packages
+     5:20.10.3~3-0~ubuntu-bionic 500
+        500 https://download.docker.com/linux/ubuntu bionic/stable amd64 Packages
+     5:20.10.2~3-0~ubuntu-bionic 500
+        500 https://download.docker.com/linux/ubuntu bionic/stable amd64 Packages
+     5:20.10.1~3-0~ubuntu-bionic 500
+        500 https://download.docker.com/linux/ubuntu bionic/stable amd64 Packages
+     5:20.10.0~3-0~ubuntu-bionic 500
+        500 https://download.docker.com/linux/ubuntu bionic/stable amd64 Packages
+     5:19.03.15~3-0~ubuntu-bionic 500
+        500 https://download.docker.com/linux/ubuntu bionic/stable amd64 Packages
+     5:19.03.14~3-0~ubuntu-bionic 500
+        500 https://download.docker.com/linux/ubuntu bionic/stable amd64 Packages
+     5:19.03.13~3-0~ubuntu-bionic 500
+        500 https://download.docker.com/linux/ubuntu bionic/stable amd64 Packages
+     5:19.03.12~3-0~ubuntu-bionic 500
+        500 https://download.docker.com/linux/ubuntu bionic/stable amd64 Packages
+     5:19.03.11~3-0~ubuntu-bionic 500
+        500 https://download.docker.com/linux/ubuntu bionic/stable amd64 Packages
+     5:19.03.10~3-0~ubuntu-bionic 500
+        500 https://download.docker.com/linux/ubuntu bionic/stable amd64 Packages
+     5:19.03.9~3-0~ubuntu-bionic 500
+        500 https://download.docker.com/linux/ubuntu bionic/stable amd64 Packages
+     5:19.03.8~3-0~ubuntu-bionic 500
+        500 https://download.docker.com/linux/ubuntu bionic/stable amd64 Packages
+     5:19.03.7~3-0~ubuntu-bionic 500
+        500 https://download.docker.com/linux/ubuntu bionic/stable amd64 Packages
+     5:19.03.6~3-0~ubuntu-bionic 500
+        500 https://download.docker.com/linux/ubuntu bionic/stable amd64 Packages
+     5:19.03.5~3-0~ubuntu-bionic 500
+        500 https://download.docker.com/linux/ubuntu bionic/stable amd64 Packages
+     5:19.03.4~3-0~ubuntu-bionic 500
+        500 https://download.docker.com/linux/ubuntu bionic/stable amd64 Packages
+     5:19.03.3~3-0~ubuntu-bionic 500
+        500 https://download.docker.com/linux/ubuntu bionic/stable amd64 Packages
+     5:19.03.2~3-0~ubuntu-bionic 500
+        500 https://download.docker.com/linux/ubuntu bionic/stable amd64 Packages
+     5:19.03.1~3-0~ubuntu-bionic 500
+        500 https://download.docker.com/linux/ubuntu bionic/stable amd64 Packages
+     5:19.03.0~3-0~ubuntu-bionic 500
+        500 https://download.docker.com/linux/ubuntu bionic/stable amd64 Packages
+     5:18.09.9~3-0~ubuntu-bionic 500
+        500 https://download.docker.com/linux/ubuntu bionic/stable amd64 Packages
+     5:18.09.8~3-0~ubuntu-bionic 500
+        500 https://download.docker.com/linux/ubuntu bionic/stable amd64 Packages
+     5:18.09.7~3-0~ubuntu-bionic 500
+        500 https://download.docker.com/linux/ubuntu bionic/stable amd64 Packages
+     5:18.09.6~3-0~ubuntu-bionic 500
+        500 https://download.docker.com/linux/ubuntu bionic/stable amd64 Packages
+     5:18.09.5~3-0~ubuntu-bionic 500
+        500 https://download.docker.com/linux/ubuntu bionic/stable amd64 Packages
+     5:18.09.4~3-0~ubuntu-bionic 500
+        500 https://download.docker.com/linux/ubuntu bionic/stable amd64 Packages
+     5:18.09.3~3-0~ubuntu-bionic 500
+        500 https://download.docker.com/linux/ubuntu bionic/stable amd64 Packages
+     5:18.09.2~3-0~ubuntu-bionic 500
+        500 https://download.docker.com/linux/ubuntu bionic/stable amd64 Packages
+     5:18.09.1~3-0~ubuntu-bionic 500
+        500 https://download.docker.com/linux/ubuntu bionic/stable amd64 Packages
+     5:18.09.0~3-0~ubuntu-bionic 500
+        500 https://download.docker.com/linux/ubuntu bionic/stable amd64 Packages
+     18.06.3~ce~3-0~ubuntu 500
+        500 https://download.docker.com/linux/ubuntu bionic/stable amd64 Packages
+     18.06.2~ce~3-0~ubuntu 500
+        500 https://download.docker.com/linux/ubuntu bionic/stable amd64 Packages
+     18.06.1~ce~3-0~ubuntu 500
+        500 https://download.docker.com/linux/ubuntu bionic/stable amd64 Packages
+     18.06.0~ce~3-0~ubuntu 500
+        500 https://download.docker.com/linux/ubuntu bionic/stable amd64 Packages
+     18.03.1~ce~3-0~ubuntu 500
+        500 https://download.docker.com/linux/ubuntu bionic/stable amd64 Packages
+jamelyron@jamelyron-linux:~$ 
+jamelyron@jamelyron-linux:~$ sudo apt install -y docker-ce
+Чтение списков пакетов… Готово
+Построение дерева зависимостей       
+Чтение информации о состоянии… Готово
+Следующие пакеты устанавливались автоматически и больше не требуются:
+  chromium-codecs-ffmpeg-extra geoip-database gstreamer1.0-vaapi libgeoip1 libgstreamer-plugins-bad1.0-0
+  libnginx-mod-http-image-filter libnginx-mod-http-xslt-filter libnginx-mod-mail libnginx-mod-stream libnginx-mod-stream-geoip
+  libva-wayland2 nginx-common nginx-core
+Для их удаления используйте «sudo apt autoremove».
+Будут установлены следующие дополнительные пакеты:
+  containerd.io docker-ce-cli docker-ce-rootless-extras git git-man liberror-perl pigz slirp4netns
+Предлагаемые пакеты:
+  aufs-tools cgroupfs-mount | cgroup-lite git-daemon-run | git-daemon-sysvinit git-doc git-el git-email git-gui gitk gitweb
+  git-cvs git-mediawiki git-svn
+Следующие НОВЫЕ пакеты будут установлены:
+  containerd.io docker-ce docker-ce-cli docker-ce-rootless-extras git git-man liberror-perl pigz slirp4netns
+Обновлено 0 пакетов, установлено 9 новых пакетов, для удаления отмечено 0 пакетов, и 0 пакетов не обновлено.
+Необходимо скачать 109 MB архивов.
+После данной операции объём занятого дискового пространства возрастёт на 490 MB.
+Пол:1 http://ru.archive.ubuntu.com/ubuntu focal/universe amd64 pigz amd64 2.4-1 [57,4 kB]
+Пол:2 http://ru.archive.ubuntu.com/ubuntu focal/main amd64 liberror-perl all 0.17029-1 [26,5 kB]
+Пол:3 http://ru.archive.ubuntu.com/ubuntu focal-updates/main amd64 git-man all 1:2.25.1-1ubuntu3.1 [884 kB]
+Пол:4 https://download.docker.com/linux/ubuntu bionic/stable amd64 containerd.io amd64 1.4.4-1 [28,3 MB]
+Пол:5 http://ru.archive.ubuntu.com/ubuntu focal-updates/main amd64 git amd64 1:2.25.1-1ubuntu3.1 [4 557 kB]
+Пол:6 http://ru.archive.ubuntu.com/ubuntu focal/universe amd64 slirp4netns amd64 0.4.3-1 [74,3 kB]
+Пол:7 https://download.docker.com/linux/ubuntu bionic/stable amd64 docker-ce-cli amd64 5:20.10.5~3-0~ubuntu-bionic [41,4 MB]   
+Пол:8 https://download.docker.com/linux/ubuntu bionic/stable amd64 docker-ce amd64 5:20.10.5~3-0~ubuntu-bionic [24,8 MB]       
+Пол:9 https://download.docker.com/linux/ubuntu bionic/stable amd64 docker-ce-rootless-extras amd64 5:20.10.5~3-0~ubuntu-bionic [8 951 kB]
+Получено 109 MB за 1мин 11с (1 529 kB/s)                                                                                       
+Выбор ранее не выбранного пакета pigz.
+(Чтение базы данных … на данный момент установлено 229313 файлов и каталогов.)
+Подготовка к распаковке …/0-pigz_2.4-1_amd64.deb …
+Распаковывается pigz (2.4-1) …
+Выбор ранее не выбранного пакета containerd.io.
+Подготовка к распаковке …/1-containerd.io_1.4.4-1_amd64.deb …
+Распаковывается containerd.io (1.4.4-1) …
+Выбор ранее не выбранного пакета docker-ce-cli.
+Подготовка к распаковке …/2-docker-ce-cli_5%3a20.10.5~3-0~ubuntu-bionic_amd64.deb …
+Распаковывается docker-ce-cli (5:20.10.5~3-0~ubuntu-bionic) …
+Выбор ранее не выбранного пакета docker-ce.
+Подготовка к распаковке …/3-docker-ce_5%3a20.10.5~3-0~ubuntu-bionic_amd64.deb …
+Распаковывается docker-ce (5:20.10.5~3-0~ubuntu-bionic) …
+Выбор ранее не выбранного пакета docker-ce-rootless-extras.
+Подготовка к распаковке …/4-docker-ce-rootless-extras_5%3a20.10.5~3-0~ubuntu-bionic_amd64.deb …
+Распаковывается docker-ce-rootless-extras (5:20.10.5~3-0~ubuntu-bionic) …
+Выбор ранее не выбранного пакета liberror-perl.
+Подготовка к распаковке …/5-liberror-perl_0.17029-1_all.deb …
+Распаковывается liberror-perl (0.17029-1) …
+Выбор ранее не выбранного пакета git-man.
+Подготовка к распаковке …/6-git-man_1%3a2.25.1-1ubuntu3.1_all.deb …
+Распаковывается git-man (1:2.25.1-1ubuntu3.1) …
+Выбор ранее не выбранного пакета git.
+Подготовка к распаковке …/7-git_1%3a2.25.1-1ubuntu3.1_amd64.deb …
+Распаковывается git (1:2.25.1-1ubuntu3.1) …
+Выбор ранее не выбранного пакета slirp4netns.
+Подготовка к распаковке …/8-slirp4netns_0.4.3-1_amd64.deb …
+Распаковывается slirp4netns (0.4.3-1) …
+Настраивается пакет slirp4netns (0.4.3-1) …
+Настраивается пакет liberror-perl (0.17029-1) …
+Настраивается пакет containerd.io (1.4.4-1) …
+Created symlink /etc/systemd/system/multi-user.target.wants/containerd.service → /lib/systemd/system/containerd.service.
+Настраивается пакет docker-ce-cli (5:20.10.5~3-0~ubuntu-bionic) …
+Настраивается пакет pigz (2.4-1) …
+Настраивается пакет git-man (1:2.25.1-1ubuntu3.1) …
+Настраивается пакет docker-ce (5:20.10.5~3-0~ubuntu-bionic) …
+Created symlink /etc/systemd/system/multi-user.target.wants/docker.service → /lib/systemd/system/docker.service.
+Created symlink /etc/systemd/system/sockets.target.wants/docker.socket → /lib/systemd/system/docker.socket.
+Настраивается пакет git (1:2.25.1-1ubuntu3.1) …
+Настраивается пакет docker-ce-rootless-extras (5:20.10.5~3-0~ubuntu-bionic) …
+Обрабатываются триггеры для man-db (2.9.1-1) …
+Обрабатываются триггеры для systemd (245.4-4ubuntu3.6) …
+jamelyron@jamelyron-linux:~$ 
+jamelyron@jamelyron-linux:~$ sudo usermod -aG docker $(whoami)
+jamelyron@jamelyron-linux:~$ sudo systemctl status docker
+● docker.service - Docker Application Container Engine
+     Loaded: loaded (/lib/systemd/system/docker.service; enabled; vendor preset: enabled)
+     Active: active (running) since Sun 2021-04-11 21:26:26 MSK; 2min 43s ago
+TriggeredBy: ● docker.socket
+       Docs: https://docs.docker.com
+   Main PID: 39830 (dockerd)
+      Tasks: 10
+     Memory: 42.8M
+     CGroup: /system.slice/docker.service
+             └─39830 /usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
+
+апр 11 21:26:13 jamelyron-linux dockerd[39830]: time="2021-04-11T21:26:13.954459560+03:00" level=warning msg="Your kernel does >
+апр 11 21:26:13 jamelyron-linux dockerd[39830]: time="2021-04-11T21:26:13.954526261+03:00" level=warning msg="Your kernel does >
+апр 11 21:26:13 jamelyron-linux dockerd[39830]: time="2021-04-11T21:26:13.954551684+03:00" level=warning msg="Your kernel does >
+апр 11 21:26:13 jamelyron-linux dockerd[39830]: time="2021-04-11T21:26:13.954976543+03:00" level=info msg="Loading containers: >
+апр 11 21:26:16 jamelyron-linux dockerd[39830]: time="2021-04-11T21:26:16.022886750+03:00" level=info msg="Default bridge (dock>
+апр 11 21:26:17 jamelyron-linux dockerd[39830]: time="2021-04-11T21:26:17.666911108+03:00" level=info msg="Loading containers: >
+апр 11 21:26:24 jamelyron-linux dockerd[39830]: time="2021-04-11T21:26:24.501588516+03:00" level=info msg="Docker daemon" commi>
+апр 11 21:26:24 jamelyron-linux dockerd[39830]: time="2021-04-11T21:26:24.502813573+03:00" level=info msg="Daemon has completed>
+апр 11 21:26:26 jamelyron-linux systemd[1]: Started Docker Application Container Engine.
+апр 11 21:26:27 jamelyron-linux dockerd[39830]: time="2021-04-11T21:26:26.173325099+03:00" level=info msg="API listen on /run/d>
+
+jamelyron@jamelyron-linux:~$ 
+jamelyron@jamelyron-linux:~$ sudo docker run -it --name Ubuntu1804 ubuntu:18.04 /bin/bash
+Unable to find image 'ubuntu:18.04' locally
+18.04: Pulling from library/ubuntu
+6e0aa5e7af40: Pull complete 
+d47239a868b3: Pull complete 
+49cbb10cca85: Pull complete 
+Digest: sha256:122f506735a26c0a1aff2363335412cfc4f84de38326356d31ee00c2cbe52171
+Status: Downloaded newer image for ubuntu:18.04
+root@18407a34848f:/# 

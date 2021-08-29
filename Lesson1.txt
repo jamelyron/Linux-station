@@ -1,0 +1,24 @@
+Обзавестись установленной версией Linux Ubuntu.
+В качестве решения необходимо прислать текстовый файл (*.txt) с кодом команды, выводящей информацию о версии ОС (вместе с результатом работы этой команды)
+
+ubuntu@ip-172-31-42-80:~$ uname
+Linux
+ubuntu@ip-172-31-42-80:~$ uname -a
+Linux ip-172-31-42-80 5.4.0-1038-aws #40-Ubuntu SMP Fri Feb 5 23:50:40 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux
+ubuntu@ip-172-31-42-80:~$ hostnamectl
+   Static hostname: ip-172-31-42-80
+         Icon name: computer-vm
+           Chassis: vm
+        Machine ID: 89981f4ed7cd4fd08906fcc29ef9757f
+           Boot ID: 6c5294e1fd04468bbbe0131e20d4f602
+    Virtualization: xen
+  Operating System: Ubuntu 20.04.2 LTS
+            Kernel: Linux 5.4.0-1038-aws
+      Architecture: x86-64
+ubuntu@ip-172-31-42-80:~$ lsb_release -a
+No LSB modules are available.
+Distributor ID: Ubuntu
+Description:    Ubuntu 20.04.2 LTS
+Release:        20.04
+Codename:       focal
+ubuntu@ip-172-31-42-80:~$
